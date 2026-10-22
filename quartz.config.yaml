@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: DanaeDae.github.io/quartz_git
+  baseUrl: DanaeDae.github.io
   ignorePatterns:
     - private
     - templates
