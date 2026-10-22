@@ -1,71 +1,68 @@
-me: Deploy Quartz site to GitHub Pages
+name: Deploy Quartz site to GitHub Pages
 
 on:
-    push:
-          branches:
-                  - v5  # 确保这里与你的主分支名称一致
+  push:
+    branches:
+      - v5
 
-          permissions:
-              contents: read
-                pages: write
-                  id-token: write
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-                  concurrency:
-                      group: "pages"
-                        cancel-in-progress: false
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
-                        jobs:
-                            build:
-                                  runs-on: ubuntu-latest
-                                      steps:
-                                              - uses: actions/checkout@v4
-                                                      with:
-                                                                  fetch-depth: 0 # 获取完整历史，用于生成文件修改时间
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-                                                                        - uses: actions/setup-node@v4
-                                                                                with:
-                                                                                            node-version: 24 # Quartz v5 推荐使用 Node.js 24
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
-                                                                                                  # 缓存 npm 依赖，加快后续构建速度
-                                                                                                  #       - name: Cache dependencies
-                                                                                                  #               uses: actions/cache@v4
-                                                                                                  #                       with:
-                                                                                                  #                                 path: ~/.npm
-                                                                                                  #                                           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                                                                                                  #                                                     restore-keys: |
-                                                                                                  #                                                                 ${{ runner.os }}-node-
-                                                                                                  #
-                                                                                                  #                                                                       # 缓存 Quartz 插件，避免每次都重新下载
-                                                                                                  #                                                                             - name: Cache Quartz plugins
-                                                                                                  #                                                                                     uses: actions/cache@v4
-                                                                                                  #                                                                                             with:
-                                                                                                  #                                                                                                       path: .quartz/plugins
-                                                                                                  #                                                                                                                 key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
-                                                                                                  #                                                                                                                           restore-keys: |
-                                                                                                  #                                                                                                                                       ${{ runner.os }}-plugins-
-                                                                                                  #
-                                                                                                  #                                                                                                                                             - name: Install Dependencies
-                                                                                                  #                                                                                                                                                     run: npm ci
-                                                                                                  #
-                                                                                                  #                                                                                                                                                           # 安装 Quartz v5 所需的插件（关键步骤）
-                                                                                                  #                                                                                                                                                                 - name: Install Quartz plugins
-                                                                                                  #                                                                                                                                                                         run: npx quartz plugin install --from-config
-                                                                                                  #
-                                                                                                  #                                                                                                                                                                               - name: Build Quartz
-                                                                                                  #                                                                                                                                                                                       run: npx quartz build
-                                                                                                  #
-                                                                                                  #                                                                                                                                                                                             - name: Upload artifact
-                                                                                                  #                                                                                                                                                                                                     uses: actions/upload-pages-artifact@v3
-                                                                                                  #                                                                                                                                                                                                             with:
-                                                                                                  #                                                                                                                                                                                                                       path: public
-                                                                                                  #
-                                                                                                  #                                                                                                                                                                                                                         deploy:
-                                                                                                  #                                                                                                                                                                                                                             needs: build
-                                                                                                  #                                                                                                                                                                                                                                 environment:
-                                                                                                  #                                                                                                                                                                                                                                       name: github-pages
-                                                                                                  #                                                                                                                                                                                                                                             url: ${{ steps.deployment.outputs.page_url }}
-                                                                                                  #                                                                                                                                                                                                                                                 runs-on: ubuntu-latest
-                                                                                                  #                                                                                                                                                                                                                                                     steps:
-                                                                                                  #                                                                                                                                                                                                                                                           - name: Deploy to GitHub Pages
-                                                                                                  #                                                                                                                                                                                                                                                                   id: deployment
-                                                                                                  #                                                                                                                                                                                                                                                                           uses: actions/deploy-pages@v4
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Quartz plugins
+        uses: actions/cache@v4
+        with:
+          path: .quartz/plugins
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-plugins-
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Quartz plugins
+        run: npx quartz plugin install --from-config
+
+      - name: Build Quartz
+        run: npx quartz build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
