@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: DanaeDae.github.io
+  baseUrl: DanaeDae.github.io/sdoc
   ignorePatterns:
     - private
     - templates
