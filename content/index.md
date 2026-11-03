@@ -1,6 +1,9 @@
 ---
-title: Welcome to Quartz
+title: 专题调研
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+<p>
+  <a href="./static/my-page/index.html" data-router-ignore>
+    神经语音解码与临床应用 · 专题调研 →
+  </a>
+</p>

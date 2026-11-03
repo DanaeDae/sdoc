@@ -1,3 +1,328 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+/* ---------- 字体 ---------- */
+
+:root {
+  --bodyFont: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --headerFont: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --titleFont: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* ---------- 标题和正文 ---------- */
+
+.page[data-frame="default"] {
+  .article-title {
+    margin: 12px 0 0;
+    font-size: 40px;
+    line-height: 1.3;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    color: var(--dark);
+  }
+
+  .breadcrumb-container {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .center > article {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .center > article > h2 {
+    margin: 44px 0 18px;
+    font-size: 30px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .center > article > h3 {
+    margin: 32px 0 14px;
+    font-size: 23px;
+    line-height: 1.45;
+  }
+
+  .center > article > p {
+    margin: 0 0 20px;
+  }
+
+  .center > article > .page-author {
+    margin: 12px 0 54px;
+    color: #6b7280;
+    font-size: 18px;
+  }
+
+  .center > article > .page-author + h2 {
+    margin-top: 0;
+  }
+
+  .center > article a.internal {
+    background: transparent;
+    padding: 0;
+  }
+
+  .center > article :is(h1, h2, h3, h4) {
+    scroll-margin-top: 100px;
+  }
+}
+
+/* ---------- 顶栏中的站点名称 ---------- */
+
+.page[data-frame="default"] .page-header > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  .page-title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .page-title > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--dark);
+    white-space: nowrap;
+  }
+
+  /* 截图左上角的字母标识，可以把 C 换成你的首字母 */
+  .page-title > a::before {
+    content: "C";
+    display: inline-grid;
+    place-items: center;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #cbdcff;
+    border-radius: 4px;
+    background: linear-gradient(#f5f9ff, #e3efff);
+    color: #5575a5;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .search {
+    flex: 0 0 224px;
+    width: 224px;
+    max-width: 224px;
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  .search > .search-button {
+    height: 40px;
+    border: 1px solid #d5dbe5;
+    border-radius: 12px;
+    background: var(--light);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+  }
+
+  .search > .search-button > p {
+    color: #858b98;
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+/* ---------- 左侧章节列表 ---------- */
+
+.page[data-frame="default"] .explorer {
+  .explorer-content {
+    margin-top: 0;
+  }
+
+  .explorer-content ul li > a {
+    display: block;
+    padding: 7px 0;
+    color: #777;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.45;
+    opacity: 1;
+  }
+
+  .explorer-content ul li > a.active {
+    color: var(--secondary);
+    font-weight: 600;
+  }
+
+  .folder-container {
+    margin: 20px 0 7px;
+  }
+
+  .explorer-ul > li:first-child > .folder-container {
+    margin-top: 0;
+  }
+
+  .folder-container div > a,
+  .folder-container div > button span {
+    color: var(--dark);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .folder-outer > ul {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* ---------- 右侧页内目录 ---------- */
+
+.page[data-frame="default"] .toc {
+  .toc-header h3 {
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .toc-header .fold {
+    width: 16px;
+    height: 16px;
+  }
+
+  ul.toc-content {
+    margin-top: 10px;
+  }
+
+  ul.toc-content > li {
+    margin: 0;
+  }
+
+  ul.toc-content > li > a {
+    display: block;
+    padding: 8px 0;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 1;
+  }
+
+  ul.toc-content > li > a.in-view {
+    color: var(--secondary);
+    opacity: 1;
+  }
+}
+
+/* ---------- 桌面和平板：固定顶栏 ---------- */
+
+@media (min-width: 801px) {
+  .page[data-frame="default"] {
+    max-width: 1600px;
+    margin: 0 auto;
+
+    > #quartz-body {
+      box-sizing: border-box;
+      padding: 98px 40px 40px;
+      grid-template-columns: 280px minmax(0, 1fr) 240px;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "grid-sidebar-left grid-center grid-sidebar-right"
+        "grid-sidebar-left grid-footer grid-sidebar-right";
+      column-gap: 56px;
+      row-gap: 0;
+      align-items: start;
+    }
+
+    > #quartz-body > .center {
+      grid-area: grid-center;
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+    }
+
+    > #quartz-body .page-header {
+      margin: 0;
+      padding: 0;
+    }
+
+    > #quartz-body > .sidebar {
+      position: sticky;
+      top: 98px;
+      height: calc(100dvh - 98px);
+      min-width: 0;
+      padding: 0 0 24px;
+      gap: 0;
+    }
+
+    .page-header > header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      box-sizing: border-box;
+      height: 66px;
+      margin: 0;
+      padding: 0 max(40px, calc((100vw - 1520px) / 2));
+      border-bottom: 1px solid var(--lightgray);
+      background: var(--light);
+    }
+
+    .explorer > .desktop-explorer {
+      display: none;
+    }
+  }
+}
+
+/* ---------- 平板：隐藏右栏，保留章节和正文 ---------- */
+
+@media (min-width: 801px) and (max-width: 1200px) {
+  .page[data-frame="default"] > #quartz-body {
+    padding-right: 24px;
+    padding-left: 24px;
+    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-areas:
+      "grid-sidebar-left grid-center"
+      "grid-sidebar-left grid-footer";
+    column-gap: 32px;
+
+    > .sidebar.right {
+      display: none;
+    }
+  }
+}
+
+/* ---------- 手机：使用原有折叠菜单 ---------- */
+
+@media (max-width: 800px) {
+  .page[data-frame="default"] {
+    .page-header > header {
+      position: static;
+      flex-wrap: wrap;
+      margin: 12px 0 24px;
+      gap: 16px;
+    }
+
+    .page-header > header .page-title {
+      font-size: 18px;
+    }
+
+    .page-header > header .search {
+      flex: 1 1 140px;
+    }
+
+    .article-title {
+      font-size: 30px;
+    }
+
+    .center > article > h2 {
+      font-size: 25px;
+    }
+
+    .center > article > .page-author {
+      margin-bottom: 32px;
+    }
+
+    > #quartz-body > .sidebar.right {
+      display: none;
+    }
+  }
+}
