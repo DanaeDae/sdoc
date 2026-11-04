@@ -81,21 +81,21 @@ DDM 的本质就是：
 递推关系：
 $$
 S_{n+1} = S_n + \xi_{n+1},
-$
+$$
 其中 $\xi_i$ 是独立同分布的随机变量：
 $$
 \mathbb{P}(\xi_i = +1) = p, \qquad \mathbb{P}(\xi_i = -1) = q.
-$
+$$
 
 期望与方差：
 $$
 \mathbb{E}[\xi_i] = 2p-1, \qquad \mathrm{Var}(\xi_i) = 4pq.
-$
+$$
 
 经过 $n$ 步后：
 $$
 \mathbb{E}[S_n] = z + n(2p-1), \qquad \mathrm{Var}(S_n) = n\cdot 4pq.
-$
+$$
 
 这就是**有偏随机游走**（biased random walk）。当 $p = 1/2$ 时退化为无偏随机游走。
 
@@ -108,41 +108,41 @@ $
 引入时间步长 $\Delta t > 0$ 和空间步长 $\Delta x > 0$，令：
 $$
 n = \frac{t}{\Delta t}, \qquad S_n = X(t).
-$
+$$
 
 要求在 $\Delta t \to 0$、$\Delta x \to 0$ 时，期望与方差都收敛到有限值。因此必须对漂移和扩散进行正确的缩放：
 
 设
 $$
 p = \frac12 + \frac{v}{2s}\sqrt{\Delta t} \quad (\text{或等价形式}),
-$
+$$
 并令
 $$
 \Delta x = s\sqrt{\Delta t}.
-$
+$$
 
 则一步的期望增量：
 $$
 \mathbb{E}[\Delta X] = (2p-1)\Delta x = v\,\Delta t,
-$
+$$
 方差：
 $$
 \mathrm{Var}(\Delta X) = 4pq\,(\Delta x)^2 \approx s^2\,\Delta t.
-$
+$$
 
 由中心极限定理，当 $\Delta t \to 0$ 时，$X(t)$ 收敛到**带漂移的布朗运动**（Wiener 过程）：
 $$
 X(t) = z + v t + s W(t),
-$
+$$
 其中 $W(t)$ 是标准维纳过程（标准布朗运动），满足：
 $$
 \mathbb{E}[W(t)] = 0, \qquad \mathrm{Var}(W(t)) = t, \qquad \text{独立增量}.
-$
+$$
 
 用微分方程的语言写就是 **Itô 随机微分方程（SDE）**：
 $$
 dX(t) = v\,dt + s\,dW(t), \qquad X(0) = z.
-$
+$$
 
 这就是从微观随机游走到宏观连续过程的核心极限。
 
@@ -155,22 +155,22 @@ $
 对任意光滑测试函数 $f$，由 Itô 公式：
 $$
 \mathbb{E}[f(X(t+\Delta t))\,|\,X(t)=x] = f(x) + \bigl(v f'(x) + \tfrac12 s^2 f''(x)\bigr)\Delta t + o(\Delta t).
-$
+$$
 
 两边对初始分布求期望，并令 $\Delta t\to 0$，就得到**前向 Kolmogorov 方程**（Fokker-Planck 方程）：
 $$
 \frac{\partial g}{\partial t} = -v\frac{\partial g}{\partial x} + \frac{s^2}{2}\frac{\partial^2 g}{\partial x^2}.
-$
+$$
 
 初始条件：
 $$
 g(x,0) = \delta(x-z).
-$
+$$
 
 无边界时，这个方程的解就是著名的高斯密度：
 $$
 g(x,t) = \frac{1}{s\sqrt{2\pi t}}\exp\Bigl(-\frac{(x-z-vt)^2}{2s^2 t}\Bigr).
-$
+$$
 
 ---
 
@@ -179,19 +179,19 @@ $
 在决策模型中，一旦证据累积到上边界 $a$ 或下边界 $0$，决策立即终止。这对应**吸收边界条件**：
 $$
 g(0,t) = 0, \qquad g(a,t) = 0.
-$
+$$
 
 粒子第一次碰到边界的时间
 $$
 \tau = \inf\{t>0 : X(t)=0\text{ 或 }X(t)=a\}
-$
+$$
 称为**首达时间（First Passage Time, FPT）**。
 
 首达时间的概率密度函数 $g_\pm(t)$ 就是边界上的**概率通量**（probability flux）：
 $$
 g_+(t) = \frac{s^2}{2}\frac{\partial g}{\partial x}\Big|_{x=a}, \qquad
 g_-(t) = -\frac{s^2}{2}\frac{\partial g}{\partial x}\Big|_{x=0}.
-$
+$$
 
 （上边界通量为正，下边界通量为负，取绝对值后得到密度。）
 
@@ -204,22 +204,22 @@ $
 设
 $$
 g(x,t) = e^{\alpha x + \beta t}\,u(x,t),
-$
+$$
 选择 $\alpha,\beta$ 消掉一阶导数项，把方程变成标准热方程，再把 $u$ 展开成正弦级数（因为边界为零）：
 $$
 u(x,t) = \sum_{k=1}^\infty c_k\sin\Bigl(\frac{k\pi x}{a}\Bigr)e^{-\lambda_k t}.
-$
+$$
 
 经过计算，最终得到**下边界首达时间密度**的无穷级数形式（$s$ 一般情形）：
 $$
 g_-(t) = \frac{\pi s^2}{a^2}\,e^{-2vz/s^2}\sum_{k=1}^\infty k\sin\Bigl(\frac{k\pi z}{a}\Bigr)
 \exp\Bigl[-\frac12\Bigl(\frac{v^2}{s^2}+\frac{k^2\pi^2 s^2}{a^2}\Bigr)t\Bigr].
-$
+$$
 
 上边界密度 $g_+(t)$ 只需做对称变换：
 $$
 v\to -v,\qquad z\to a-z.
-$
+$$
 
 这就是精确的解析解。实际计算时用有限项截断即可，收敛很快。
 
@@ -230,7 +230,7 @@ $
 若只考虑一个边界（例如下边界很远，或只有上边界），则首达时间精确服从**逆高斯分布**：
 $$
 g(t) = \frac{z}{s\sqrt{2\pi t^3}}\exp\Bigl(-\frac{(z-vt)^2}{2s^2 t}\Bigr).
-$
+$$
 
 这是两边界级数解在 $a\to\infty$ 时的极限。
 
@@ -242,7 +242,7 @@ $
 $$
 P_- = \int_0^\infty g_-(t)\,dt = \frac{e^{-2va/s^2}-e^{-2vz/s^2}}{e^{-2va/s^2}-1}
 \quad(v\neq 0).
-$
+$$
 
 $v=0$ 时退化为 $P_- = z/a$。
 
